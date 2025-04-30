@@ -12,11 +12,12 @@
 
 <style scoped>
 aside {
-  width: 100%;
+  width: 300px;
   height: calc(100vh - 4rem);
   background-color: #222;
   border-radius: 50px;
   padding: 1rem;
+  position: fixed;
 
   h3 {
     text-align: center;

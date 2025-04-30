@@ -2,10 +2,6 @@
   <div class="card">
     <img src="/images/placeholder.png" />
     <div class="details">
-      <h4>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reprehenderit,
-        omnis!
-      </h4>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore iure
         ut fugit? Expedita minus cumque itaque accusantium eos ullam, quisquam
@@ -31,7 +27,7 @@
 
   .details {
     background-color: #222;
-    padding: 1rem;
+    padding: 1.5rem 2rem;
   }
 }
 </style>

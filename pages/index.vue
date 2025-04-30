@@ -12,6 +12,7 @@
 <template>
   <div class="grid">
     <Sidebar />
+    <div></div>
     <main>
       <section class="hero">
         <h1>
@@ -26,7 +27,7 @@
         <BlogSearch />
       </section>
       <section class="blogs">
-        <BlogCard />
+        <BlogCard v-for="i in 12" :key="i" />
       </section>
     </main>
   </div>
@@ -35,14 +36,19 @@
 <style scoped>
 .grid {
   display: grid;
-  grid-template-columns: 300px minmax(350px, 512px);
-  max-width: clamp(350px, 90vw, 1200px);
+  /* place-content: center; */
+  grid-template-columns: 300px 1fr;
+  max-width: 90vw;
   gap: 3rem;
   margin: 0 auto;
   padding-top: 2rem;
 }
 
 .hero {
+  max-width: 512px;
+  margin: 0 auto;
+  margin-bottom: 3rem;
+
   h1 {
     font-family: "JetBrains Mono", monospace;
     font-size: 4rem;
@@ -72,5 +78,11 @@
       -webkit-text-fill-color: transparent;
     }
   }
+}
+.blogs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
 }
 </style>
