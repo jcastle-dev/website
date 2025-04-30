@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  font-size: 16px;
+  font-family: "Roboto", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #111;
+  color: #f0f2f4;
+}
+
+pre {
+  background-color: #222;
+  padding: 10px;
+  border-radius: 5px;
+}
