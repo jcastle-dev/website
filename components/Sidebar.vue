@@ -3,7 +3,7 @@
     <h3>Browse by Tag</h3>
     <!-- <hr /> -->
     <div class="tags">
-      <BlogTag v-for="i in 16" :key="i" compact />
+      <BlogTag v-for="i in 16" :key="i" tag="example" />
     </div>
   </aside>
 </template>

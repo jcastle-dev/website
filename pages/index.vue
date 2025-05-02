@@ -29,7 +29,7 @@ useSeoMeta({
         <BlogSearch />
       </section>
       <section class="blogs">
-        <BlogCard v-for="i in 12" :key="i" />
+        <BlogCard v-for="post in blogPosts" :key="post.id" :blog-post="post" />
       </section>
     </main>
   </div>

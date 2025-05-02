@@ -1,22 +1,23 @@
 <template>
   <div class="card">
-    <img src="/images/placeholder.png" />
+    <img :src="props.blogPost.image" />
     <div class="details">
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore iure
-        ut fugit? Expedita minus cumque itaque accusantium eos ullam, quisquam
-        deserunt quaerat ratione, commodi tempore debitis fugit quos, sunt
-        omnis.
+        {{ props.blogPost.description }}
       </p>
-      <nuxt-link to="/">Read More</nuxt-link>
+      <nuxt-link :to="props.blogPost.path">Read More</nuxt-link>
       <div class="tags">
-        <BlogTag v-for="i in 4" :key="i" compact />
+        <BlogTag v-for="tag in props.blogPost.tags" :key="tag" :tag="tag" />
       </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const props = defineProps<{
+  blogPost: any;
+}>();
+</script>
 
 <style scoped>
 .card {

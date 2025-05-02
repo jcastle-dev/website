@@ -7,6 +7,7 @@ export default defineContentConfig({
       source: "**/*.md",
       schema: z.object({
         image: z.string(),
+        tags: z.array(z.string()).optional(),
       }),
     }),
   },
