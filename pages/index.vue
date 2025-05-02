@@ -1,12 +1,14 @@
 <script setup lang="ts">
-// const { data: home } = await useAsyncData(() =>
-//   queryCollection("content").path("/").first()
-// );
+const { data: blogPosts } = await useAsyncData("index", () => {
+  return queryCollection("content").all();
+});
+console.log(blogPosts.value);
 
-// useSeoMeta({
-//   title: home.value?.title,
-//   description: home.value?.description,
-// });
+useSeoMeta({
+  title: "jcastle_dev",
+  description:
+    "Programming tutorials for intermediate web developers and aspiring DevOps engineers",
+});
 </script>
 
 <template>
@@ -38,8 +40,8 @@
   display: grid;
   /* place-content: center; */
   grid-template-columns: 300px 1fr;
-  max-width: 90vw;
-  gap: 3rem;
+  /* max-width: 90vw; */
+  /* gap: 3rem; */
   margin: 0 auto;
   padding-top: 2rem;
 }
@@ -55,15 +57,15 @@
     font-weight: 300;
 
     #d {
-      color: #00ff00;
+      color: var(--color-primary);
     }
 
     #e {
-      color: #00ff00;
+      color: var(--color-primary);
     }
 
     #v {
-      color: #00ff00;
+      color: var(--color-primary);
     }
   }
 
@@ -72,7 +74,7 @@
     margin: 1.5rem 0 3rem 0;
 
     .text-highlight {
-      background: linear-gradient(to right, #00ff00, #fff);
+      background: linear-gradient(to right, var(--color-primary), #fff);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;

@@ -13,8 +13,8 @@
   align-items: center;
   justify-content: space-between;
   /* padding: 1rem; */
-  background-color: #222;
-  border-radius: 50px;
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius);
   overflow: hidden;
   /* padding: 0.5rem; */
   /* gap: 0.5rem; */
@@ -23,7 +23,7 @@
     border: none;
     outline: none;
     background-color: transparent;
-    color: #f0f2f4;
+    color: var(--color-secondary);
     font-size: 1rem;
     /* background-color: orange; */
     flex: 1;
@@ -31,13 +31,13 @@
   }
 
   button {
-    background-color: #f0f2f4;
+    background-color: var(--color-secondary);
     border: none;
-    border-radius: 50px;
+    border-radius: var(--border-radius);
     /* aspect-ratio: 1; */
     padding: 0.75rem 1.5rem;
     cursor: pointer;
-    color: #111;
+    color: var(--color-background);
     /* font-size: 1rem; */
     /* background-color: orange border-radius 1rem; */
   }

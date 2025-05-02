@@ -9,6 +9,9 @@
         omnis.
       </p>
       <nuxt-link to="/">Read More</nuxt-link>
+      <div class="tags">
+        <BlogTag v-for="i in 4" :key="i" compact />
+      </div>
     </div>
   </div>
 </template>
@@ -19,15 +22,31 @@
 .card {
   max-width: 350px;
   overflow: hidden;
-  border-radius: 50px;
+  border-radius: var(--border-radius);
 
   img {
     max-width: 100%;
   }
 
   .details {
-    background-color: #222;
+    background-color: var(--color-surface);
     padding: 1.5rem 2rem;
+
+    p {
+      line-height: 1.35;
+    }
+
+    a {
+      display: block;
+      margin: 0.5rem 0 1.5rem 0;
+      color: var(--color-primary);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
   }
 }
 </style>

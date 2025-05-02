@@ -3,7 +3,7 @@
     <h3>Browse by Tag</h3>
     <!-- <hr /> -->
     <div class="tags">
-      <BlogTag v-for="i in 16" :key="i" />
+      <BlogTag v-for="i in 16" :key="i" compact />
     </div>
   </aside>
 </template>
@@ -14,9 +14,7 @@
 aside {
   width: 300px;
   height: calc(100vh - 4rem);
-  background-color: #222;
-  border-radius: 50px;
-  padding: 1rem;
+  padding: 2rem;
   position: fixed;
 
   h3 {
@@ -27,12 +25,13 @@ aside {
   hr {
     border: none;
     height: 1px;
-    background-color: #f0f2f4;
+    background-color: var(--color-secondary);
     margin: 1rem 0 1.5rem 0;
   }
 
   .tags {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 0.75rem;
   }
