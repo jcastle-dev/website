@@ -84,7 +84,9 @@ useSeoMeta({
 .blogs {
   display: flex;
   justify-content: center;
+  align-items: stretch;
   flex-wrap: wrap;
   gap: 2rem;
+  padding-bottom: 2rem;
 }
 </style>

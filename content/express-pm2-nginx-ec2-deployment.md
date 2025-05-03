@@ -1,8 +1,8 @@
 ---
 title: How to deploy and Express REST API to AWS EC2
 description: This tutorial will show one way to deploy an Express REST API to an EC2 instance using Nginx as a reverse proxy.
-image: /images/placeholder.png
-tags: ["express", "nodejs", "aws", "ec2", "nginx", "rest", "api"]
+image: /images/video1.png
+tags: ["express", "nodejs", "aws", "ec2", "nginx", "rest", "api", "pm2"]
 ---
 
 # How to deploy and Express REST API to AWS EC2
