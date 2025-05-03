@@ -9,8 +9,6 @@ tags:
     "gcp",
     "compute-engine",
     "haproxy",
-    "rest",
-    "api",
     "docker",
     "docker-compose",
   ]

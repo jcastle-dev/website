@@ -1,11 +1,13 @@
 <template>
   <div class="container">
-    <input type="text" placeholder="Search tutorials" />
+    <input v-model="searchTerm" type="text" placeholder="Search tutorials" />
     <button><Icon name="ph:magnifying-glass-bold" size="1.25rem" /></button>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const searchTerm = defineModel();
+</script>
 
 <style scoped>
 .container {

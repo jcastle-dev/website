@@ -1,8 +1,28 @@
 <script setup lang="ts">
-const { data: blogPosts } = await useAsyncData("index", () => {
-  return queryCollection("content").all();
+import { watchDebounced } from "@vueuse/core";
+
+const searchTerm = ref<string>("");
+
+const { data: blogPosts, refresh } = await useAsyncData("index", () => {
+  return queryCollection("content")
+    .where("title", "LIKE", `%${searchTerm.value}%`)
+    .orWhere((query) =>
+      query
+        .where("description", "LIKE", `%${searchTerm.value}%`)
+        .where("tags", "LIKE", `%${searchTerm.value}%`)
+    )
+    .all();
 });
 console.log(blogPosts.value);
+
+watchDebounced(
+  searchTerm,
+  async () => {
+    await refresh();
+    console.log(blogPosts.value);
+  },
+  { debounce: 500 }
+);
 
 useSeoMeta({
   title: "jcastle_dev",
@@ -26,16 +46,36 @@ useSeoMeta({
           <span class="text-highlight"> web developers </span>
           and aspiring <span class="text-highlight">DevOps engineers</span>
         </p>
-        <BlogSearch />
+        <BlogSearch v-model="searchTerm" />
       </section>
       <section class="blogs">
-        <BlogCard v-for="post in blogPosts" :key="post.id" :blog-post="post" />
+        <TransitionGroup name="blogs">
+          <BlogCard
+            v-for="post in blogPosts"
+            :key="post.id"
+            :blog-post="post"
+          />
+        </TransitionGroup>
       </section>
     </main>
   </div>
 </template>
 
 <style scoped>
+.blogs-move,
+.blogs-enter-active,
+.blogs-leave-active {
+  transition: all 0.5s ease;
+}
+.blogs-enter-from,
+.blogs-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+.blogs-leave-active {
+  position: absolute;
+}
+
 .grid {
   display: grid;
   /* place-content: center; */

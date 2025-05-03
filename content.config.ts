@@ -8,6 +8,8 @@ export default defineContentConfig({
       schema: z.object({
         image: z.string(),
         tags: z.array(z.string()).optional(),
+        title: z.string(),
+        description: z.string(),
       }),
     }),
   },
