@@ -1,17 +1,8 @@
 ---
-title: How to deploy and Express REST API to GCP Compute Engine using Docker
+title: How to deploy an Express REST API to GCP Compute Engine using Docker
 description: This tutorial will show one way to deploy an Express REST API to a GCP Compute Engine VM using Docker and HAProxy.
 image: /images/video2.png
-tags:
-  [
-    "express",
-    "nodejs",
-    "gcp",
-    "compute-engine",
-    "haproxy",
-    "docker",
-    "docker-compose",
-  ]
+tags: express nodejs gcp compute-engine haproxy docker docker-compose
 ---
 
 # How to deploy and Express REST API to GCP Compute Engine using Docker

@@ -1,42 +1,14 @@
-<script setup lang="ts">
-import { watchDebounced } from "@vueuse/core";
-
-const searchTerm = ref<string>("");
-
-const { data: blogPosts, refresh } = await useAsyncData("index", () => {
-  return queryCollection("content")
-    .where("title", "LIKE", `%${searchTerm.value}%`)
-    .orWhere((query) =>
-      query
-        .where("description", "LIKE", `%${searchTerm.value}%`)
-        .where("tags", "LIKE", `%${searchTerm.value}%`)
-    )
-    .all();
-});
-console.log(blogPosts.value);
-
-watchDebounced(
-  searchTerm,
-  async () => {
-    await refresh();
-    console.log(blogPosts.value);
-  },
-  { debounce: 500 }
-);
-
-useSeoMeta({
-  title: "jcastle_dev",
-  description:
-    "Programming tutorials for intermediate web developers and aspiring DevOps engineers",
-});
-</script>
-
 <template>
   <div class="grid">
-    <Sidebar />
+    <Sidebar
+      :tags="allTags"
+      @tag-selected="selectedTag = $event"
+      :selected-tag="selectedTag"
+    />
     <div></div>
     <main>
       <section class="hero">
+        <!-- v-gsap.whenVisible.animateText.once.slow -->
         <h1>
           jcastle_<span id="d">d</span><span id="e">e</span
           ><span id="v">v</span>
@@ -46,7 +18,7 @@ useSeoMeta({
           <span class="text-highlight"> web developers </span>
           and aspiring <span class="text-highlight">DevOps engineers</span>
         </p>
-        <BlogSearch v-model="searchTerm" />
+        <BlogSearch @click="showSearchDialog = true" />
       </section>
       <section class="blogs">
         <TransitionGroup name="blogs">
@@ -58,8 +30,52 @@ useSeoMeta({
         </TransitionGroup>
       </section>
     </main>
+
+    <SearchDialog
+      v-model="showSearchDialog"
+      @close="
+        showSearchDialog = false;
+        searchTerm = '';
+      "
+    />
   </div>
 </template>
+
+<script setup lang="ts">
+useSeoMeta({
+  title: "jcastle_dev",
+  description:
+    "Programming tutorials for intermediate web developers and aspiring DevOps engineers",
+});
+
+const showSearchDialog = ref<boolean>(false);
+const searchTerm = ref<string>("");
+const selectedTag = ref<string>("");
+
+const { data: tags } = await useAsyncData("tags", () => {
+  return queryCollection("content").select("tags").all();
+});
+console.log(tags.value);
+const allTags = computed(() => {
+  let tagsString = "";
+  tags.value!.forEach((tag) => {
+    tagsString += tag.tags + " ";
+  });
+  const tagsArray = tagsString.split(" ");
+  const uniqueTags = [...new Set(tagsArray)];
+  return uniqueTags.filter((tag) => tag !== "");
+});
+
+const { data: blogPosts, refresh } = await useAsyncData(
+  computed(() => `blogs-${selectedTag.value}`),
+  () => {
+    return queryCollection("content")
+      .where("tags", "LIKE", `%${selectedTag.value}%`)
+      .all();
+  }
+);
+console.log(blogPosts.value);
+</script>
 
 <style scoped>
 .blogs-move,

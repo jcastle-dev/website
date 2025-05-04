@@ -1,16 +1,20 @@
 <template>
-  <div class="tag">{{ props.tag }}</div>
+  <div class="tag" :style="{ backgroundColor }">{{ props.tag }}</div>
 </template>
 
 <script setup lang="ts">
 const props = defineProps<{
   tag: string;
+  selected?: boolean;
 }>();
+const backgroundColor = computed<string>(() => {
+  return props.selected ? "var(--color-primary)" : "var(--color-secondary)";
+});
 </script>
 
 <style scoped>
 .tag {
-  background-color: var(--color-secondary);
+  /* background-color: var(--color-secondary); */
   color: var(--color-background);
   padding: 0.25rem;
   font-size: 0.75rem;

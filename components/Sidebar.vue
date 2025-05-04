@@ -1,14 +1,25 @@
 <template>
   <aside>
     <h3>Browse by Tag</h3>
-    <!-- <hr /> -->
     <div class="tags">
-      <BlogTag v-for="i in 16" :key="i" tag="example" />
+      <BlogTag
+        v-for="tag in tags"
+        :key="tag"
+        :tag="tag"
+        :selected="tag === selectedTag"
+        @click="emit('tag-selected', tag)"
+      />
     </div>
   </aside>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const props = defineProps<{
+  tags: string[];
+  selectedTag: string;
+}>();
+const emit = defineEmits(["tag-selected"]);
+</script>
 
 <style scoped>
 aside {
@@ -31,7 +42,7 @@ aside {
 
   .tags {
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     flex-wrap: wrap;
     gap: 0.75rem;
   }
