@@ -23,7 +23,7 @@
 const props = defineProps<{
   blogPost: any;
 }>();
-console.log(props.blogPost);
+// console.log(props.blogPost);
 
 const backgroundColor = computed<string>(() => {
   return `#${props.blogPost.color}`;
@@ -62,6 +62,7 @@ const backgroundColor = computed<string>(() => {
       display: block;
       margin: 0.5rem 0 1.5rem 0;
       color: var(--color-primary);
+      text-decoration: none;
     }
 
     .tags {

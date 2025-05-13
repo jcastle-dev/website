@@ -23,6 +23,29 @@ body {
   color: var(--color-secondary);
 }
 
+p {
+  margin: 1rem 0;
+  line-height: 1.5;
+  color: #f0f2f4;
+}
+
+img {
+  max-width: 100%;
+  max-height: 50vh;
+  margin: 0 auto;
+  display: block;
+}
+
+h1 {
+  font-family: "JetBrains Mono", monospace;
+}
+
+ul {
+  li {
+    list-style-position: inside;
+  }
+}
+
 /* pre {
   background-color: var(--color-surface);;
   padding: 10px;

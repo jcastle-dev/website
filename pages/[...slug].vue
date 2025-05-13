@@ -1,6 +1,8 @@
 <template>
-  <ContentRenderer v-if="page" :value="page" />
-  <p v-else>Article not found</p>
+  <div class="container">
+    <ContentRenderer v-if="page" :value="page" />
+    <p v-else>Article not found</p>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -10,4 +12,15 @@ const { data: page } = await useAsyncData(route.path, () => {
 });
 </script>
 
-<style scoped></style>
+<style>
+.container {
+  max-width: 65ch;
+  margin: 0 auto;
+  padding-top: 2rem;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+</style>
