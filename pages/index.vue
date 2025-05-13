@@ -1,10 +1,6 @@
 <template>
   <div class="grid">
-    <Sidebar
-      :tags="allTags"
-      @tag-selected="selectedTag = $event"
-      :selected-tag="selectedTag"
-    />
+    <Sidebar :tags="allTags" v-model="selectedTag" />
     <div></div>
     <main>
       <section class="hero">
@@ -18,7 +14,7 @@
           <span class="text-highlight"> web developers </span>
           and aspiring <span class="text-highlight">DevOps engineers</span>
         </p>
-        <BlogSearch @click="showSearchDialog = true" />
+        <!-- <BlogSearch @click="showSearchDialog = true" /> -->
       </section>
       <section class="blogs">
         <TransitionGroup name="blogs">
@@ -31,13 +27,10 @@
       </section>
     </main>
 
-    <SearchDialog
+    <!-- <SearchDialog
       v-model="showSearchDialog"
-      @close="
-        showSearchDialog = false;
-        searchTerm = '';
-      "
-    />
+      @close="showSearchDialog = false"
+    /> -->
   </div>
 </template>
 
@@ -49,13 +42,12 @@ useSeoMeta({
 });
 
 const showSearchDialog = ref<boolean>(false);
-const searchTerm = ref<string>("");
 const selectedTag = ref<string>("");
 
 const { data: tags } = await useAsyncData("tags", () => {
   return queryCollection("content").select("tags").all();
 });
-console.log(tags.value);
+// console.log(tags.value);
 const allTags = computed(() => {
   let tagsString = "";
   tags.value!.forEach((tag) => {
@@ -74,7 +66,7 @@ const { data: blogPosts, refresh } = await useAsyncData(
       .all();
   }
 );
-console.log(blogPosts.value);
+// console.log(blogPosts.value);
 </script>
 
 <style scoped>

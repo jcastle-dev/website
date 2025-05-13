@@ -3,11 +3,11 @@
     <h3>Browse by Tag</h3>
     <div class="tags">
       <BlogTag
-        v-for="tag in tags"
+        v-for="tag in props.tags"
         :key="tag"
         :tag="tag"
-        :selected="tag === selectedTag"
-        @click="emit('tag-selected', tag)"
+        :selected="tag === model"
+        @click="handleTagClick(tag)"
       />
     </div>
   </aside>
@@ -16,9 +16,11 @@
 <script setup lang="ts">
 const props = defineProps<{
   tags: string[];
-  selectedTag: string;
 }>();
-const emit = defineEmits(["tag-selected"]);
+const model = defineModel();
+const handleTagClick = (tag: string) => {
+  model.value = tag === model.value ? "" : tag;
+};
 </script>
 
 <style scoped>

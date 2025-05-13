@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" :style="{ backgroundColor }">
     <img :src="props.blogPost.image" />
     <div class="details">
       <div>
@@ -23,6 +23,11 @@
 const props = defineProps<{
   blogPost: any;
 }>();
+console.log(props.blogPost);
+
+const backgroundColor = computed<string>(() => {
+  return `#${props.blogPost.color}`;
+});
 </script>
 
 <style scoped>
@@ -45,6 +50,9 @@ const props = defineProps<{
     flex-direction: column;
     justify-content: space-between;
     gap: 1rem;
+    margin: 1rem;
+    margin-top: 0;
+    border-radius: var(--border-radius);
 
     p {
       line-height: 1.35;

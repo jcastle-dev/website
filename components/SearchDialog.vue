@@ -2,7 +2,28 @@
   <Transition>
     <div v-if="showDialog" class="overlay">
       <div class="dialog">
-        <input type="text" placeholder="Type to search..." ref="search" />
+        <input
+          type="text"
+          placeholder="Type to search..."
+          ref="searchInput"
+          v-model="searchTerm"
+        />
+        <ul>
+          <li v-for="link of result" :key="link.item.id" class="mt-2">
+            <nuxt-link :to="link.item.id">
+              <b>{{ link.item.title }}</b>
+              <p>
+                {{
+                  link.item.content?.slice(
+                    link.item.content?.indexOf(searchTerm) - 10,
+                    link.item.content?.indexOf(searchTerm) + 10
+                  )
+                }}...
+                <!-- {{ link.item.content?.slice(0, 10) }}... -->
+              </p>
+            </nuxt-link>
+          </li>
+        </ul>
       </div>
       <div class="overlay-bg" @click="emit('close')"></div>
     </div>
@@ -10,15 +31,38 @@
 </template>
 
 <script setup lang="ts">
+import Fuse from "fuse.js";
+
 const showDialog = defineModel();
 const emit = defineEmits(["close"]);
 
-const search = useTemplateRef<HTMLInputElement>("search");
+const { data: searchSections } = await useAsyncData(
+  "search-sections",
+  async () => {
+    let sections = await queryCollectionSearchSections("content", {
+      ignoredTags: ["description"],
+    });
+    return sections.filter((_, index) => index % 2 !== 0);
+  }
+);
+console.log(searchSections.value);
+const searchTerm = ref<string>("");
+
+const fuse = new Fuse(searchSections.value || [], {
+  keys: ["title", "content"],
+});
+
+const result = computed(() => fuse.search(toValue(searchTerm)).slice(0, 10));
+watch(result, (val) => {
+  console.log(val);
+});
+
+const searchInput = useTemplateRef<HTMLInputElement>("searchInput");
 watch(
-  search,
+  searchInput,
   (val) => {
     if (val) {
-      search.value?.focus();
+      searchInput.value?.focus();
     }
   },
   { immediate: true }
@@ -64,6 +108,11 @@ watch(
       /* flex: 1; */
       width: 100%;
       padding: 0.75rem 1rem;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
     }
   }
 

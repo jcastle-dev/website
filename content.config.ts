@@ -10,6 +10,7 @@ export default defineContentConfig({
         tags: z.string().optional(),
         title: z.string(),
         description: z.string(),
+        color: z.union([z.string(), z.number()]).default("000000"),
       }),
     }),
   },
