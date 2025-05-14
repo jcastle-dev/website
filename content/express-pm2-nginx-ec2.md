@@ -8,6 +8,12 @@ color: "000000"
 
 # How to deploy an Express REST API to EC2
 
+::YoutubeEmbed
+---
+src: https://www.youtube.com/embed/JaMiSwXV3Sg?si=mkxxpD8SRwY5ubrC
+---
+::
+
 At the end of this tutorial, our tech stack will look like this:
 
 ![tech stack breakdown](/images/express-pm2-nginx-ec2/tech-stack.png)
@@ -20,8 +26,8 @@ It listens to port 3000 on all interfaces.
 
 ### Step 1 - provision AWS EC2 instance
 
-From the aws console dashboard, in the search bar, type ec2, which is aws's virtual machine offering.
-From the ec2 dashboard, click on launch instance.
+From the aws console dashboard, in the search bar, type `ec2`, which is aws's virtual machine offering.
+From the ec2 dashboard, click on `launch instance`.
 We only need to configure a few things here.
 
 - Give the instance a name of `todos-server`.

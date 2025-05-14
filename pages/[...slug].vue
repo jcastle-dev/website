@@ -16,7 +16,7 @@ const { data: page } = await useAsyncData(route.path, () => {
 .container {
   max-width: 65ch;
   margin: 0 auto;
-  padding-top: 2rem;
+  padding: 2rem 1rem;
 
   a {
     color: inherit;
