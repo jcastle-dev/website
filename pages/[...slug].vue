@@ -22,5 +22,11 @@ const { data: page } = await useAsyncData(route.path, () => {
     color: inherit;
     text-decoration: none;
   }
+
+  li {
+    img {
+      margin: 0.5rem 0;
+    }
+  }
 }
 </style>

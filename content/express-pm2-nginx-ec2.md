@@ -27,19 +27,34 @@ It listens to port 3000 on all interfaces.
 ### Step 1 - provision AWS EC2 instance
 
 From the aws console dashboard, in the search bar, type `ec2`, which is aws's virtual machine offering.
+
+![tech stack breakdown](/images/express-pm2-nginx-ec2/aws-search-ec2.png)
+
 From the ec2 dashboard, click on `launch instance`.
+
+![tech stack breakdown](/images/express-pm2-nginx-ec2/luanch-instance.png)
+
 We only need to configure a few things here.
 
 - Give the instance a name of `todos-server`.
+![tech stack breakdown](/images/express-pm2-nginx-ec2/ec2-name.png)
 - Select `ubuntu` as the operating system, leaving the architecture and the instance type as they are.
+![tech stack breakdown](/images/express-pm2-nginx-ec2/ec2-os.png)
 - Create a new SSH keypair named `todos-server`, and download the private keyfile to your local machine.
+![tech stack breakdown](/images/express-pm2-nginx-ec2/ec2-keypair.png)
 - Under `network settings` check the box to allow http traffic from the internet.
+![tech stack breakdown](/images/express-pm2-nginx-ec2/ec2-http.png)
 
 2 important things to note here are that we will only be accessing this instance by its public ip address, and we will only be using http over port 80.
 We'll cover dns and tls configuration in a later video.
 Leave all other options as they are, and click `launch instance`.
 
+![tech stack breakdown](/images/express-pm2-nginx-ec2/ec2-launch.png)
+
 Once the instance is launched, click on its ID, so that we can see its public ip address.
+
+![tech stack breakdown](/images/express-pm2-nginx-ec2/ec2-ip.png)
+
 We'll use this ip address for further configuration.
 
 ### Step 2 - SSH into EC2 instance
