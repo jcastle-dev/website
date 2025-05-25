@@ -18,8 +18,14 @@ const { data: page } = await useAsyncData(route.path, () => {
   margin: 0 auto;
   padding: 2rem 1rem;
 
+  h2 {
+    a {
+      color: var(--color-secondary);
+    }
+  }
+
   a {
-    color: inherit;
+    color: var(--color-primary);
     text-decoration: none;
   }
 

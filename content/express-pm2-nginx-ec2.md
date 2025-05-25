@@ -24,59 +24,76 @@ This tech stack will be deployed to an aws virtual machine.
 Our express api is a simple todos application with get, post, patch, and delete requests.
 It listens to port 3000 on all interfaces.
 
-### Step 1 - provision AWS EC2 instance
+## Step 1 - provision AWS EC2 instance
 
 From the aws console dashboard, in the search bar, type `ec2`, which is aws's virtual machine offering.
 
-![tech stack breakdown](/images/express-pm2-nginx-ec2/aws-search-ec2.png)
+![aws search bar](/images/express-pm2-nginx-ec2/aws-search-ec2.png)
 
 From the ec2 dashboard, click on `launch instance`.
 
-![tech stack breakdown](/images/express-pm2-nginx-ec2/luanch-instance.png)
+![launching ec2 instance](/images/express-pm2-nginx-ec2/luanch-instance.png)
 
 We only need to configure a few things here.
 
 - Give the instance a name of `todos-server`.
-![tech stack breakdown](/images/express-pm2-nginx-ec2/ec2-name.png)
+![ec2 instance name](/images/express-pm2-nginx-ec2/ec2-name.png)
 - Select `ubuntu` as the operating system, leaving the architecture and the instance type as they are.
-![tech stack breakdown](/images/express-pm2-nginx-ec2/ec2-os.png)
+![selecting ubuntu as OS](/images/express-pm2-nginx-ec2/ec2-os.png)
 - Create a new SSH keypair named `todos-server`, and download the private keyfile to your local machine.
-![tech stack breakdown](/images/express-pm2-nginx-ec2/ec2-keypair.png)
+![creating SSH keypair](/images/express-pm2-nginx-ec2/ec2-keypair.png)
 - Under `network settings` check the box to allow http traffic from the internet.
-![tech stack breakdown](/images/express-pm2-nginx-ec2/ec2-http.png)
+![enabling public http traffic](/images/express-pm2-nginx-ec2/ec2-http.png)
 
 2 important things to note here are that we will only be accessing this instance by its public ip address, and we will only be using http over port 80.
 We'll cover dns and tls configuration in a later video.
 Leave all other options as they are, and click `launch instance`.
 
-![tech stack breakdown](/images/express-pm2-nginx-ec2/ec2-launch.png)
+![launching ec2 instance](/images/express-pm2-nginx-ec2/ec2-launch.png)
 
 Once the instance is launched, click on its ID, so that we can see its public ip address.
 
-![tech stack breakdown](/images/express-pm2-nginx-ec2/ec2-ip.png)
+![public IP address of ec2 instance](/images/express-pm2-nginx-ec2/ec2-ip.png)
 
 We'll use this ip address for further configuration.
 
-### Step 2 - SSH into EC2 instance
+## Step 2 - SSH into EC2 instance
 
 In my terminal emulator I'm going to navigate to the directory that I downloaded the private key file to.
 In this case, that file is `todos-server.pem`.
 I'm then going to type `ssh -i todos-server.pem ubuntu@<ec2-instance-public-ip>`.
 I'll press enter, and now we have successfully SSH'd into our virtual machine.
 
-### Step 3 - Install dependencies
+![ssh command](/images/express-pm2-nginx-ec2/ssh.png)
+
+## Step 3 - Install Node.js dependencies
 
 ![dependency list](/images/express-pm2-nginx-ec2/dependencies.png)
 
 We'll begin by installing the first 3 dependencies on our vm.
 Still in the ssh session in our vm, im going to install node and npm my preferred way, using the volta utility.
-This command is pasted from the volta.sh website.
+This command is pasted from the [volta.sh](https://volta.sh/) website.
+
+![install volta command](/images/express-pm2-nginx-ec2/install-volta.png)
+
 Once this command finishes, i'm going to source my .bashrc file.
-Now, i'll type volta --version, and i see that it is installed and accessible to me.
-I will now type volta install node, and this will install both the nodejs and npm lts.
-If i now type node -v, i have 22.14 lts, and if i type npm -v, i have 10.9.2 lts.
-I will now install my 3rd dependency by typing npm install -g to install globally, pm2.
+Now, i'll type` volta --version`, and i see that it is installed and accessible to me.
+
+![sourcing bashrc](/images/express-pm2-nginx-ec2/source-bashrc.png)
+
+I will now type `volta install node`, and this will install both the nodejs and npm lts.
+If i now type `node -v`, i have 22.14 lts, and if i type` npm -v`, i have 10.9.2 lts.
+
+![checking dependency versions](/images/express-pm2-nginx-ec2/versions.png)
+
+I will now install my 3rd dependency by typing `npm install -g pm2` to install it globally.
+
+![installing pm2](/images/express-pm2-nginx-ec2/install-pm2.png)
+
 And now our first 3 dependencies are successfully installed.
+
+## Step 4 - Copy project files
+
 The next step is to copy our project files from our local machine to our ec2 instance.
 Note that in a production environment, you would likely use a combination of version control, usually git, and some form of ci/cd pipelines to accomplish this.
 We'll cover those technologies in a later video.
@@ -95,25 +112,27 @@ And we get a nicely formatted json array of todos.
 I'm going to execute 2 additional pm2 commands, the first of which is pm2 startup, which will create a startup script for my currently managed processes.
 And i will also run pm2 save, which will save the current process list.
 Now our application will persist across instance reboots.
+
+## Step 5 - Install and configure Nginx reverse proxy
+
 The last step of this deployment is to install and configure nginx as a reverse proxy.
 I will begin by running sudo apt update, to update the system's package list.
 Now i will run sudo apt install nginx -y to accept the installation automatically.
 Now that nginx is installed, we need to create a simple default configuration file to reverse proxy to our application.
 This file will do the following:
 
-- listen on port 80 to all requests bound for the public ip address of our ec2 instance.
-- at the root location, it will reverse proxy to our todos server running on localhost port 3000.
-- and it will simply forward the host header as nginx received it.
+1. Listen on port 80 to all requests bound for the public ip address of our ec2 instance.
+2. At the root location, reverse proxy to our todos server running on `localhost:3000`.
+3. forward the host header to our todos server as nginx received it.
 
-  Back in my ec2 instance, i'm going to change directory into /etc/nginx/conf.d.
-  And as you can see, i do not currently have a default configuration file.
-  So i will run sudo vim default.conf.
-  And i am simply going to paste my minimal default configuration into this file.
-  I will then save and exit vim.
-  I will now run sudo nginx -t to test the configuration file for errors, and it passes.
-  I will then run sudo nginx -s reload to reload nginx's configuration files.
-  Next, i will type systemctl status nginx to confirm that nginx is running properly, and it is.
-  The only thing to do now is to make a request to the ec2 instance from my local machine, to ensure that nginx is configured properly, receiving requests, and reverse proxying them to the todos application.
-  I'm going to execute curl http://the public ip address of the ec2 instance/todos, once again piping the output to jq for formatting.
-  And as you can see, we get the exact same output as when we curled localhost from inside the ec2 instance.
-  Our deployment is now complete.
+Back in my ec2 instance, i'm going to change directory into /etc/nginx/conf.d.
+And as you can see, i do not currently have a default configuration file.
+So i will run sudo vim default.conf.
+And i am simply going to paste my minimal default configuration into this file.
+I will then save and exit vim.
+I will now run sudo nginx -t to test the configuration file for errors, and it passes.
+I will then run sudo nginx -s reload to reload nginx's configuration files.
+Next, i will type systemctl status nginx to confirm that nginx is running properly, and it is.
+The only thing to do now is to make a request to the ec2 instance from my local machine, to ensure that nginx is configured properly, receiving requests, and reverse proxying them to the todos application. I'm going to execute `curl http://<ec2-public-ip>/todos`, once again piping the output to `jq` for formatting.
+And as you can see, we get the exact same output as when we curled localhost from inside the ec2 instance.
+Our deployment is now complete.

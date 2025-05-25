@@ -41,7 +41,8 @@ h1 {
   font-family: "JetBrains Mono", monospace;
 }
 
-ul {
+ul,
+ol {
   margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
@@ -53,6 +54,10 @@ ul {
     text-indent: -22px;
     line-height: 1.5;
   }
+}
+
+ol li {
+  text-indent: -18px;
 }
 
 code {
