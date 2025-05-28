@@ -95,25 +95,47 @@ And now our first 3 dependencies are successfully installed.
 ## Step 4 - Copy project files
 
 The next step is to copy our project files from our local machine to our ec2 instance.
-Note that in a production environment, you would likely use a combination of version control, usually git, and some form of ci/cd pipelines to accomplish this.
-We'll cover those technologies in a later video.
-I'm going to use scp to copy the files in this case.
-Back in my terminal emulator on my local machine, i'm going to type the scp command similarly to the ssh command.
-I will type scp, with the -i option to specify the todos-server.pem file as credentials, also passing the -r option to copy recursively, and the entire todos directory which contains our project files.
-Once again i will type ubuntu@, and i will copy our ec2 instance's public ip address and paste it at the end of the command.
-After this, i will type colon, and the absolute path to the ubuntu user's home directory, that is /home/ubuntu.
-I will press enter, and we can see that all 4 project files have copied over.
-Back in my ssh session in the ec2 instance, i will type ls to confirm that the files are here.
-I will cd into the todos directory, and run npm install to install our nodejs dependencies.
-I will now use pm2 to start the application by running pm2 start index.js, which is the entry point.
-If i now run pm2 ls, we see a status of online, which indicates that the application is running properly.
-We can test this by typing curl localhost:3000/todos, and i will pipe this to jq to format the output.
-And we get a nicely formatted json array of todos.
-I'm going to execute 2 additional pm2 commands, the first of which is pm2 startup, which will create a startup script for my currently managed processes.
-And i will also run pm2 save, which will save the current process list.
+Note that in a production environment, you would likely use a combination of version control (usually git) and some form of CI/CD pipelines to accomplish this.
+We'll cover those technologies in a later tutorial.
+I'm going to use `scp` to copy the files in this case.
+Back in my terminal emulator on my local machine, I'm going to type the scp command similarly to the ssh command.
+I will type `scp`, with the `-i` option to specify the `todos-server.pem` file as credentials, also passing the `-r` option to copy recursively, and the entire todos directory which contains our project files.
+I will then type `ubuntu@1.1.1.1:/home/ubuntu`.
+
+![scp command](/images/express-pm2-nginx-ec2/scp-command.png)
+
+I will press `enter`, and we can see that all 4 project files have copied over.
+
+Back in my ssh session in the ec2 instance, i will type `ls` to confirm that the files are here.
+
+![confirming file transfer](/images/express-pm2-nginx-ec2/confirm-scp.png)
+
+I will `cd` into the todos directory, and run `npm install` to install our nodejs dependencies.
+
+![installing application dependencie](/images/express-pm2-nginx-ec2/install-app-dependencies.png)
+
+## Step 5 - Serve application with PM2
+
+I will now use pm2 to start the application by running `pm2 start index.js`, which is our application's entry point.
+
+![pm2 start command](/images/express-pm2-nginx-ec2/pm2-start.png)
+
+If i now run `pm2 ls`, we see a status of `online`, which indicates that the application is running properly.
+
+![pm2 list command](/images/express-pm2-nginx-ec2/pm2-ls.png)
+
+We can test this by typing `curl localhost:3000/todos`, and we get a nicely formatted json array of todos.
+
+![curl test for pm2 deployment](/images/express-pm2-nginx-ec2/pm2-test.png)
+
+I'm going to execute 2 additional pm2 commands, the first of which is `pm2 startup`, which will create a startup script for my currently managed processes.
+The second command is `pm2 save`, which will save the current process list.
+
+![additional pm2 commands](/images/express-pm2-nginx-ec2/pm2-startup-save.png)
+
 Now our application will persist across instance reboots.
 
-## Step 5 - Install and configure Nginx reverse proxy
+## Step 6 - Install and configure Nginx reverse proxy
 
 The last step of this deployment is to install and configure nginx as a reverse proxy.
 I will begin by running sudo apt update, to update the system's package list.
