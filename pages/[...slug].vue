@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+    <nuxt-link to="/" class="back-link"
+      ><Icon name="ph:arrow-fat-left-fill" /> Back to tutorials
+    </nuxt-link>
     <ContentRenderer v-if="page" :value="page" />
     <p v-else>Article not found</p>
   </div>
@@ -17,6 +20,13 @@ const { data: page } = await useAsyncData(route.path, () => {
   max-width: 65ch;
   margin: 0 auto;
   padding: 2rem 1rem;
+
+  .back-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
 
   h2 {
     a {

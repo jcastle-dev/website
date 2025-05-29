@@ -16,7 +16,7 @@ const backgroundColor = computed<string>(() => {
 .tag {
   /* background-color: var(--color-secondary); */
   color: var(--color-background);
-  padding: 0.25rem;
+  padding: 0.25rem 0.4rem;
   font-size: 0.75rem;
   font-weight: 500;
   border-radius: var(--border-radius);

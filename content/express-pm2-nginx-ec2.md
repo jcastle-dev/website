@@ -6,7 +6,7 @@ tags: express nodejs aws ec2 nginx pm2
 color: "000000"
 ---
 
-# How to deploy an Express REST API to EC2
+# How to deploy an Express REST API to an AWS EC2 instance
 
 ::YoutubeEmbed
 ---

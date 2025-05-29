@@ -29,6 +29,11 @@ aside {
   height: calc(100vh - 4rem);
   padding: 2rem;
   position: fixed;
+  display: none;
+
+  @media screen and (min-width: 1024px) {
+    display: block;
+  }
 
   h3 {
     text-align: center;
@@ -44,7 +49,7 @@ aside {
 
   .tags {
     display: flex;
-    /* justify-content: center; */
+    justify-content: center;
     flex-wrap: wrap;
     gap: 0.75rem;
   }

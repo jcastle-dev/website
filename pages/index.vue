@@ -1,11 +1,10 @@
 <template>
   <div class="grid">
     <Sidebar :tags="allTags" v-model="selectedTag" />
-    <div></div>
+    <div class="filler"></div>
     <main>
       <section class="hero">
-        <!-- v-gsap.whenVisible.animateText.once.slow -->
-        <h1>
+        <h1 v-gsap.whenVisible.animateText.once.slow>
           jcastle_<span id="d">d</span><span id="e">e</span
           ><span id="v">v</span>
         </h1>
@@ -87,46 +86,67 @@ const { data: blogPosts, refresh } = await useAsyncData(
 .grid {
   display: grid;
   /* place-content: center; */
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 1fr;
   /* max-width: 90vw; */
   /* gap: 3rem; */
   margin: 0 auto;
   padding-top: 2rem;
+
+  @media screen and (min-width: 1024px) {
+    grid-template-columns: 300px 1fr;
+  }
+}
+
+.filler {
+  display: none;
+
+  @media screen and (min-width: 1024px) {
+    display: block;
+  }
 }
 
 .hero {
   max-width: 512px;
   margin: 0 auto;
   margin-bottom: 3rem;
+  padding: 0 1rem;
+  text-align: center;
 
   h1 {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 4rem;
     font-weight: 300;
+    font-size: 3rem;
 
-    #d {
-      color: var(--color-primary);
-    }
-
-    #e {
-      color: var(--color-primary);
-    }
-
-    #v {
-      color: var(--color-primary);
+    @media screen and (min-width: 1024px) {
+      font-size: 4rem;
     }
   }
 
-  p {
-    font-size: 2rem;
-    margin: 1.5rem 0 3rem 0;
+  #d {
+    color: var(--color-primary);
+  }
 
-    .text-highlight {
-      background: linear-gradient(to right, var(--color-primary), #fff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+  #e {
+    color: var(--color-primary);
+  }
+
+  #v {
+    color: var(--color-primary);
+  }
+}
+
+p {
+  font-size: 1.5rem;
+  margin: 1.5rem 0 3rem 0;
+
+  @media screen and (min-width: 1024px) {
+    font-size: 2rem;
+  }
+
+  .text-highlight {
+    background: linear-gradient(to right, var(--color-primary), #fff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }
 .blogs {

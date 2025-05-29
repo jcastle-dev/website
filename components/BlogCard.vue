@@ -44,25 +44,29 @@ const backgroundColor = computed<string>(() => {
 
   .details {
     background-color: var(--color-surface);
-    padding: 1.5rem 2rem;
+    /* padding: 1.5rem 2rem; */
+    padding: 1rem;
+    padding-top: 0;
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 1rem;
+    /* gap: 1rem; */
     margin: 1rem;
     margin-top: 0;
     border-radius: var(--border-radius);
 
     p {
       line-height: 1.35;
+      margin-bottom: 0.25rem;
     }
 
     a {
       display: block;
-      margin: 0.5rem 0 1.5rem 0;
+      margin-bottom: 1.5rem;
       color: var(--color-primary);
       text-decoration: none;
+      /* text-underline-offset: 2px; */
     }
 
     .tags {
