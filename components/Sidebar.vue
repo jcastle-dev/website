@@ -29,6 +29,7 @@ aside {
   height: calc(100vh - 4rem);
   padding: 2rem;
   position: fixed;
+  top: 2rem;
   display: none;
 
   @media screen and (min-width: 1024px) {

@@ -4,7 +4,7 @@
     <div class="filler"></div>
     <main>
       <section class="hero">
-        <h1 v-gsap.whenVisible.animateText.once.slow>
+        <h1>
           jcastle_<span id="d">d</span><span id="e">e</span
           ><span id="v">v</span>
         </h1>
@@ -83,6 +83,15 @@ const { data: blogPosts, refresh } = await useAsyncData(
   position: absolute;
 }
 
+@keyframes fadeInLeftToRight {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0;
+  }
+}
+
 .grid {
   display: grid;
   /* place-content: center; */
@@ -115,6 +124,19 @@ const { data: blogPosts, refresh } = await useAsyncData(
   h1 {
     font-weight: 300;
     font-size: 3rem;
+    position: relative;
+
+    ::before {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--color-background);
+      /* background-color: rgba(255, 255, 255, 0.5); */
+      animation: fadeInLeftToRight 1s linear forwards;
+    }
 
     @media screen and (min-width: 1024px) {
       font-size: 4rem;
