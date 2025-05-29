@@ -112,7 +112,7 @@ Back in my ssh session in the ec2 instance, i will type `ls` to confirm that the
 
 I will `cd` into the todos directory, and run `npm install` to install our nodejs dependencies.
 
-![installing application dependencie](/images/express-pm2-nginx-ec2/install-app-dependencies.png)
+![installing application dependencies](/images/express-pm2-nginx-ec2/install-app-dependencies.png)
 
 ## Step 5 - Serve application with PM2
 
@@ -138,23 +138,40 @@ Now our application will persist across instance reboots.
 ## Step 6 - Install and configure Nginx reverse proxy
 
 The last step of this deployment is to install and configure nginx as a reverse proxy.
-I will begin by running sudo apt update, to update the system's package list.
-Now i will run sudo apt install nginx -y to accept the installation automatically.
+I will begin by running `sudo apt update`, to update the system's package list.
+Now i will run `sudo apt install nginx -y` to accept the installation automatically.
+
+![install nginx](/images/express-pm2-nginx-ec2/install-nginx.png)
+
 Now that nginx is installed, we need to create a simple default configuration file to reverse proxy to our application.
+
+![nginx configuration](/images/express-pm2-nginx-ec2/nginx-conf.png)
+
 This file will do the following:
 
 1. Listen on port 80 to all requests bound for the public ip address of our ec2 instance.
 2. At the root location, reverse proxy to our todos server running on `localhost:3000`.
-3. forward the host header to our todos server as nginx received it.
+3. Forward the host header to our todos server as nginx received it.
 
-Back in my ec2 instance, i'm going to change directory into /etc/nginx/conf.d.
-And as you can see, i do not currently have a default configuration file.
-So i will run sudo vim default.conf.
-And i am simply going to paste my minimal default configuration into this file.
+Back in my ec2 instance, i'm going to change directory into `/etc/nginx/conf.d`.
+And as you can see, i do not currently have a default configuration file, so i will run `sudo vim default.conf`.
+
+![creating nginx configuration file](/images/express-pm2-nginx-ec2/create-conf.png)
+
+I am simply going to paste my minimal default configuration into this file.
+
+![viewing nginx configuration file](/images/express-pm2-nginx-ec2/nginx-conf-file.png)
+
 I will then save and exit vim.
-I will now run sudo nginx -t to test the configuration file for errors, and it passes.
-I will then run sudo nginx -s reload to reload nginx's configuration files.
-Next, i will type systemctl status nginx to confirm that nginx is running properly, and it is.
-The only thing to do now is to make a request to the ec2 instance from my local machine, to ensure that nginx is configured properly, receiving requests, and reverse proxying them to the todos application. I'm going to execute `curl http://<ec2-public-ip>/todos`, once again piping the output to `jq` for formatting.
-And as you can see, we get the exact same output as when we curled localhost from inside the ec2 instance.
+I will now run `sudo nginx -t` to test the configuration file for errors, and it passes.
+I will then run `sudo nginx -s reload` to reload nginx's configuration files.
+Next, i will type `systemctl status nginx` to confirm that nginx is running properly, and it is.
+
+![test and reload nginx configuration](/images/express-pm2-nginx-ec2/reload-nginx.png)
+
+The only thing to do now is to make a request to the ec2 instance from my local machine, to ensure that nginx is configured properly, receiving requests, and reverse proxying them to the todos application. I'm going to execute `curl http://<ec2-public-ip>/todos`.
+
+![final curl test](/images/express-pm2-nginx-ec2/final-test.png)
+
+As can be seen, we get the exact same output as when we curled localhost from inside the ec2 instance.
 Our deployment is now complete.
