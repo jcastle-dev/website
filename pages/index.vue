@@ -1,7 +1,7 @@
 <template>
   <div class="grid">
-    <Sidebar :tags="allTags" v-model="selectedTag" />
-    <div class="filler"></div>
+    <!-- <Sidebar :tags="allTags" v-model="selectedTag" /> -->
+    <!-- <div class="filler"></div> -->
     <main>
       <section class="hero">
         <h1>
@@ -101,18 +101,18 @@ const { data: blogPosts, refresh } = await useAsyncData(
   margin: 0 auto;
   padding-top: 2rem;
 
-  @media screen and (min-width: 1024px) {
+  /* @media screen and (min-width: 1024px) {
     grid-template-columns: 300px 1fr;
-  }
+  } */
 }
 
-.filler {
+/* .filler {
   display: none;
 
   @media screen and (min-width: 1024px) {
     display: block;
   }
-}
+} */
 
 .hero {
   max-width: 512px;

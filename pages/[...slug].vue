@@ -26,6 +26,7 @@ const { data: page } = await useAsyncData(route.path, () => {
     align-items: center;
     gap: 0.5rem;
     margin-bottom: 0.5rem;
+    max-width: max-content;
   }
 
   h2 {

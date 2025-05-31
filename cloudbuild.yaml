@@ -1,0 +1,56 @@
+steps:
+  - id: "install dependencies"
+    name: "node"
+    entrypoint: "npm"
+    args: ["install", "nuxt"]
+    volumes:
+      - name: "node_modules"
+        path: "/node_modules"
+
+  - id: "generate static site"
+    name: "node"
+    entrypoint: "npm"
+    args: ["run", "generate"]
+    volumes:
+      - name: "node_modules"
+        path: "/node_modules"
+      - name: "output"
+        path: "/.output"
+
+  - id: "inject ssh key"
+    name: "bash"
+    script: |
+      #!/usr/bin/env bash
+      mkdir -p /root/.ssh
+      echo "-----BEGIN OPENSSH PRIVATE KEY-----" > /root/.ssh/id_ecdsa
+      echo $SSH_KEY >> /root/.ssh/id_ecdsa
+      echo "-----END OPENSSH PRIVATE KEY-----" >> /root/.ssh/id_ecdsa
+      echo "" >> /root/.ssh/id_ecdsa
+      chown root:root /root/.ssh/id_ecdsa
+      chmod 600 /root/.ssh/id_ecdsa
+      cat /root/.ssh/id_ecdsa
+    volumes:
+      - name: "ssh"
+        path: "/root/.ssh"
+    secretEnv: ["SSH_KEY"]
+
+  - id: "copy files to server"
+    name: "us-central1-docker.pkg.dev/jcastle-dev/cloud-builders/rsync"
+    args:
+      [
+        "-avz",
+        "-e",
+        "/usr/bin/ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_ecdsa",
+        ".output/public/",
+        "jcastle@34.134.72.2:/usr/share/nginx/html/public",
+      ]
+    volumes:
+      - name: "ssh"
+        path: "/root/.ssh"
+      - name: "output"
+        path: "/.output"
+
+availableSecrets:
+  secretManager:
+    - versionName: "projects/jcastle-dev/secrets/website-server-ssh-key/versions/2"
+      env: "SSH_KEY"

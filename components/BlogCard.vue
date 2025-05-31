@@ -62,7 +62,7 @@ const backgroundColor = computed<string>(() => {
     }
 
     a {
-      display: block;
+      display: inline-block;
       margin-bottom: 1.5rem;
       color: var(--color-primary);
       text-decoration: none;
