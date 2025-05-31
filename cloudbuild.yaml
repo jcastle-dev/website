@@ -54,3 +54,6 @@ availableSecrets:
   secretManager:
     - versionName: "projects/jcastle-dev/secrets/website-server-ssh-key/versions/2"
       env: "SSH_KEY"
+
+options:
+  logging: "CLOUD_LOGGING_ONLY"
