@@ -57,3 +57,5 @@ availableSecrets:
 
 options:
   logging: "CLOUD_LOGGING_ONLY"
+  pool:
+    name: "projects/jcastle-dev/locations/us-east1/workerPools/website-pipeline-worker-pool"
